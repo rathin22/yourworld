@@ -1,0 +1,180 @@
+body {
+    margin: 2.5%;
+    margin-top: 30px;
+
+}
+#maintitle {font-size: 50pt;
+    font-family: adequateextra_light;
+    font-weight: normal;
+    color: white;
+}
+#yourexperiences{ font-size: 39pt;}
+.navbar {
+    background-color: rgb(255, 123, 172);
+    color: white;
+    font-size: 22pt;
+    font-family: adequateextra_light;
+    border: 0;
+    padding: 5px;
+}
+
+hr { position: relative;  
+    border: none; 
+    height: 2px;
+    background: white; 
+    margin-bottom: 15px; 
+    margin-left: 0;
+    margin-top: 0;
+} 
+@media screen and (min-width: 1375px){
+    hr {width: 95%;}
+}
+@media screen and (max-width: 1375px){
+    hr {margin-right: 0;
+        right: 0;}
+}
+
+#home {position: relative;
+    color: white;
+    font-family: Montserrat-Regular;
+    margin-left: 0.25;
+    font-size: 40pt;
+}
+
+#recentlyaddedplaces {
+    color: white;
+    font-family: Montserrat-Regular;
+    font-size: 27pt;
+}
+.addplace { 
+    border-radius: 12px;
+    border:0;
+    background-color:rgb(255, 123, 172) ; 
+    color: white;
+    font-size: 24pt;
+    font-family: Montserrat-Regular;
+    padding: 5px;
+    
+}
+@media screen and (max-width: 768px) {
+    #home {font-size: 30pt;} 
+    #homepageaddplace{
+        font-size: 22pt;
+        margin-bottom: 10px;
+    }
+}
+@media screen and (max-width: 576px){
+    .navbar {font-size: 16pt;}
+    #maintitle {font-size: 40pt;}
+    .addplace {font-size: 17pt;}
+    #yourexperiences {font-size: 30pt;}
+}
+@media screen and (min-width: 768px) {
+    #homepageaddplace { position:relative;
+         }
+}
+@media screen and (min-width: 1040px) and (max-width: 1200px) {
+    .addplace { position:relative;
+        left: 25%; }
+}
+@media screen and (max-width: 1482px){
+    #rightcard { margin-top: 30px;}
+}
+.cardtitle{
+    font-size: 24pt;
+    font-family: adequateextra_light;
+    font-weight: 900;
+}
+
+img { border: 6px solid white;
+    margin-right: 7px;
+}
+
+#placepagerow {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+.placepagecol {
+    flex: 33%;
+    max-width: 33%;
+    padding: 0 8px;
+}
+.placepagecol img {
+    margin-top: 16px;
+    vertical-align: middle;
+    width: 100%;
+  }
+  .centertext {
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40pt;
+
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+#delete {
+    font-size: 15pt;
+}
+.blurimgcontainer {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+/* Responsive layout - makes a two column-layout*/
+@media screen and (max-width: 900px) {
+    .placepagecol {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+    }
+}
+  
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+.placepagecol {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+}
+}
+
+.adequateextra {
+    font-family: adequateextra_light;
+    font-weight: 900;
+}
+.montserrat {
+    font-family: Montserrat-Regular;
+}
+.typoldlight {
+    font-family: typoldlight;
+}
+@font-face {
+    font-family: 'adequateextra_light';
+    src: url(fonts/Adequate-ExtraLight.ttf);
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url("fonts/Montserrat-Bold.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url("fonts/Montserrat-Regular.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'typoldlight';
+    src: url("fonts/typoldextendedlight.woff") format('woff');
+
+}

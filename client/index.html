@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    
+    <title>YourWorld</title>
+    <link rel="icon" href="camera.svg">
+    <script src="https://kit.fontawesome.com/e8ae316aea.js" crossorigin="anonymous"></script>
+  </head>
+  <body style="background-color: rgb(255, 123, 172);">
+
+    <div class="row">
+      <div class="col-12 col-lg-7 col-xl-8">
+        <h1 id="maintitle">YourWorld</h1>
+      </div>
+      <div class="col-12 col-lg-5 col-xl-4 align-self-end">
+        <div class="btn-group" role="group">
+          <button class="btn mr-5 active navbar" style="font-weight: 1000;" id="homebutton">Home</button>
+          <button type="button" class="btn navbar" id="allplacesbutton">All Places</button>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!--MODAL WHICH CONTAINS ADD NEW PLACE FORM-->
+    <div class="modal fade" id="modal" tabindex="-1"  aria-labelledby="ModalLabel" aria-hidden="true">  
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title adequateextra" id="ModalLabel">Add a New Place</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close"><span aria-hidden="true">&times;</span></button>
+          </div>
+
+          <div class="modal-body">
+            <!--------------------FORM---------------------->
+            <form id="form">
+              <div class="form-group">
+              <label for="placename" style="color: black;" class="montserrat">Enter the name of the place </label>
+              <input type="name" class="form-control" id="placename" required>
+              <div class="invalid-feedback montserrat">
+                Please enter a name
+              </div>
+              </div>
+              <label for="images" class="montserrat">Upload your images</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="images" name="images" multiple required accept="image/jfif, image/jpeg, image/jpg, image/png, image/gif">
+                <label class="custom-file-label" for="images" style="overflow: hidden;">Choose file</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width: 90px; margin-top: 12px; background-color:  rgb(255, 123, 172) ; border:  rgb(255, 123, 172);" data-dismiss="" id="upload">Add</button>
+
+            </form>
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!----------HOMEPAGE---------->
+    <div id="homepage" style="display: block;">
+
+    <!--Success message-->
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;" id="homesuccessmessage">
+      The place was successfully added
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <h2 id="home">Home </h2>
+
+    <!--Recently Added Places and the Add new places button-->
+    <div class="row justify-content-between mb-2" >
+
+      <div class="col-12 col-lg-4 col-xl-3 order-lg-12 my-col">
+        <button class="btn addplace" data-toggle="modal" data-target="#modal" id="homepageaddplace">Add New Place</button>
+      </div>
+      <div class="col-12 col-lg-6 order-lg-2 my-col align-self-center">
+        <h3 id="recentlyaddedplaces">Recently Added Places:</h3>
+      </div>
+        
+    </div>
+
+    <!---------------------------CARDS---------------------------->
+    <div id='allcards' style="display: none;">
+      <div class="card text-white d-inline-block mr-sm-5 px-3" style="display: none; background-color: rgb(255, 174, 204); vertical-align: top;" id="leftcard">
+
+        <div class="card-body" id="card1" style="display: none; width:400px;">
+          <h5 class="cardtitle placetitle" id="card1title" role="button"></h5>
+          
+          <div class="row row1">
+            
+          </div>
+          
+          <div class="row row1">
+
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="card text-white mr-xl-5 d-inline-block px-3 mt-3 mt-lg-0" style="background-color: rgb(255, 174, 204);  vertical-align: top;" id="centercard">
+
+        <div class="card-body" id="card2" style="display: none; width: 400px" >
+          <h5 class="cardtitle placetitle" id="card2title"  role="button"></h5>
+          <div class="row row2">
+            
+          </div>
+            <div class="row row2">
+              
+            </div>
+          
+        </div>
+      </div>
+
+      <div class="card text-white d-inline-block px-3" style="background-color: rgb(255, 174, 204);  vertical-align: top;" id="rightcard" >
+
+        <div class="card-body" id="card3" style="display: none; width: 400px" >
+          <h5 class="cardtitle placetitle" id="card3title" role="button"></h5>
+          <div class="row row3">
+            
+          </div>
+            <div class="row row3">
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    
+      <!--NO PLACES ADDED MESSAGE-->
+      <div id="noplaces" class="jumbotron montserrat" style="width: 80%; background-color:rgb(255, 186, 214); 
+      color: white; font-size: 22pt; text-align: center; display: none;">
+          You haven't added any places yet
+          <br>
+          <button class="btn btn-primary montserrat" data-toggle="modal" data-target="#modal" style="background-color: white; border: 0; color: rgb(255, 123, 172);">Add New Place</button>
+
+      </div>
+
+
+    </div>
+
+    <!-----------PLACE PAGE------------>
+    <div id="placepage" style="display: none;">
+      <div style="font-size: 20pt; color: white;" id="backtohome" role="button"> <i class="fas fa-arrow-left fa-2x"></i></div>
+      <div class="row" >
+        <div class="col-9">
+          <h1 class="mt-2" id="place" style="font-size: 45pt; color: white;"></h1>
+        </div>
+        <div class="col-3 align-self-center">
+          <button id="delete" class="btn btn-danger montserrat">Delete Place</button>
+        </div>
+      </div>
+      <div class="row" id="placepagerow">
+        <div class="col placepagecol" id="column1">
+
+        </div>
+        <div class="col placepagecol" id="column2">
+
+        </div>
+        <div class="col placepagecol" id="column3">
+
+        </div>
+      </div>
+    </div>
+
+    <!----------ALL PLACES PAGE---------->
+    <div id="allplacespage" style="display: none;">
+
+      <div class="row justify-content-between mb-2" id="allplacesheader">
+
+        <div class="col-12 col-lg-5 col-xl-3 order-lg-12 my-col align-self-center">
+          <button class="btn addplace " data-toggle="modal" data-target="#modal" style="font-size: 22pt;">Add New Place</button>
+        </div>
+        <div class="col-12 col-lg-7 order-lg-2 my-col">
+          <h2 id="yourexperiences" style="color: white;" class="montserrat">Your Experiences:</h2>
+        </div>
+      </div>
+      <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;" id="allplacessuccessmessage">
+        The place was successfully added
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div id=allplacesbody></div>
+
+      <!--NO PLACES ADDED MESSAGE-->
+      <div id="noplaces2" class="jumbotron montserrat" style="width: 90%; background-color:rgb(255, 186, 214); 
+      color: white; font-size: 22pt; text-align: center; display: none;">
+          You haven't added any places yet
+          <br>
+          <button class="btn btn-primary montserrat" data-toggle="modal" data-target="#modal" style="background-color: white; border: 0; color: rgb(255, 123, 172);">Add New Place</button>
+
+      </div>
+    
+      <div id="allplacesfooter"></div>
+    </div>
+
+
+    <script src="index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script type="module" src="	https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+  </body>
+</html>
