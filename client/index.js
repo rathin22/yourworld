@@ -62,7 +62,7 @@ loadhomepage();
 document.addEventListener("DOMContentLoaded", function(event) {         //For making file input dynamic
     bsCustomFileInput.init();
 });
-document.getElementById('allplacesbutton').addEventListener('click', async (event)=>{           //Fetching for places page
+document.getElementById('allplacesbutton').addEventListener('click', async (event)=>{           //Fetching for all places page
     ChangeDisplay("none","none","block");
     
     let response= await fetch('/allplaces')
@@ -89,17 +89,22 @@ function FillRecentPlaces(places){                                              
     let NumOfPlaces= Object.keys(places).length
     if(NumOfPlaces==0){
         document.getElementById('noplaces').style.display="block";
+        document.getElementById('allcards').style.display="none";
     }
     else {
         document.getElementById('allcards').style.display="block";
     if (NumOfPlaces==1) {
         document.getElementById('noplaces').style.display="none";
         document.getElementById('card1').style.display='block';
+        document.getElementById('card2').style.display='none';
+        document.getElementById('card3').style.display='none';
     }
     else if (NumOfPlaces==2) {
         document.getElementById('noplaces').style.display="none";
         document.getElementById('card1').style.display='block';
         document.getElementById('card2').style.display='block';
+        document.getElementById('card3').style.display='none';
+        
     }
     else{
         document.getElementById('noplaces').style.display="none";
@@ -234,7 +239,7 @@ function GenerateIndividualPlaceContent(backdestination){           //Making car
             let placename= event.target.textContent;
             document.getElementById('place').innerHTML = placename;
 
-            let response= await fetch('/'+placename);
+            let response= await fetch('/place/'+placename);
             let images= await response.json();
             let n=1;
             for(let i=1; i<4; i++){
@@ -263,7 +268,7 @@ function backbutton(destination){
 
 document.getElementById('delete').addEventListener('click', async (event)=>{
     let placename= document.getElementById('place').textContent;
-    let response= await fetch('http://127.0.0.1:8090/'+placename, {
+    let response= await fetch('http://127.0.0.1:8090/delete/'+placename, {
         method: 'delete'
     });
     document.getElementById('backtohome').click();

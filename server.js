@@ -30,6 +30,7 @@ function getRecentPlaces(){                                          //Returns d
 
 
 app.get('/allplaces', (req, resp)=>{
+
     let AllFilePaths= {};
     for(place of Object.keys(AllPlaces)){
         AllFilePaths[place] = fs.readdirSync("client/userimages/"+place);
@@ -45,7 +46,7 @@ app.post('/upload', function(req, resp){                    //ADD NEW PLACE
 
     let x= JSON.stringify(req.files.images.length);
     if(x==undefined) {x=1;} 
-    console.log(AllPlaces[req.body.name]);
+
     if(AllPlaces[req.body.name]!=undefined){
         resp.send('Place already added');}      //If place has been added before     
     else{
@@ -65,17 +66,21 @@ app.post('/upload', function(req, resp){                    //ADD NEW PLACE
  }
 })
 
-app.get('/:placename', function(req, resp){
+app.get('/place/:placename', function(req, resp){
     let images= fs.readdirSync("client/userimages/"+req.params.placename);
     resp.json(images);
 })
 
-app.delete('/:place', (req, resp)=>{
+app.delete('/delete/:place', (req, resp)=>{
     let placename= req.params.place;
     deleteFolder('client/userimages/'+placename, {debugLog: false});
     delete AllPlaces[placename];
     fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
     resp.send("");
+})
+
+app.get('/allplaceslist', (req, resp)=>{
+    resp.json(Object.keys(AllPlaces));
 })
 console.log("Server running at http://127.0.0.1:8090");
 app.listen(8090);
