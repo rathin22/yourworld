@@ -1,12 +1,14 @@
-var myStorage= window.sessionStorage;
-var homepage= document.getElementById('homepage');
-var placepage= document.getElementById('placepage');
-var allplacespage= document.getElementById('allplacespage');
+async function loadhomepage(){
+    let response= await fetch('http://127.0.0.1:8090/recent');
+    let places = await response.json();
+    FillRecentPlaces(places);
+}
+loadhomepage();
 
-function setStorage(hp, pp, app){                       //function for saving state of page
-    //myStorage.setItem('homepage', hp);
-    //myStorage.setItem('placepage', pp);
-   // myStorage.setItem('allplacespage', app);
+function showServerDown(){
+    const alertelement= '<div class="alert alert-danger alert-dismissible fade show montserrat" role="alert"><strong>It looks like the server has gone down. Please try again later</strong><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button></div>';
+    document.getElementById('body').insertAdjacentHTML('afterbegin', alertelement);
+    window.setTimeout(function(){RemoveSuccessMsg(document.querySelector('.alert-danger'))}, 8000);
 }
 
 function ChangeDisplay(hp, pp, app)
@@ -52,28 +54,22 @@ function fillAllPlaces(AllFilePaths){                                       //Ge
     }
 }
 
-async function loadhomepage(){
-    let response= await fetch('http://127.0.0.1:8090/recent');
-    let places = await response.json();
-    FillRecentPlaces(places);
-}
-loadhomepage();
-
 document.addEventListener("DOMContentLoaded", function(event) {         //For making file input dynamic
     bsCustomFileInput.init();
 });
 document.getElementById('allplacesbutton').addEventListener('click', async (event)=>{           //Fetching for all places page
-    ChangeDisplay("none","none","block");
-    
-    let response= await fetch('/allplaces')
+    try {
+    let response= await fetch('/allplaces');
     let AllFilePaths= await response.json();
-    
     fillAllPlaces(AllFilePaths);
-    
+
+    ChangeDisplay("none","none","block");
     event.target.style="font-weight: 1000;";                             //Nav bar text bold
-    document.getElementById('homebutton').style="";                      //nav bar text
+    document.getElementById('homebutton').style="";                      //nav bar text     
+    } catch (error) {
+        showServerDown();
+    }
     
-    //setStorage('none', 'none', 'block');
 })
 document.getElementById('homebutton').addEventListener('click', (event)=>{
     loadhomepage();
@@ -82,8 +78,6 @@ document.getElementById('homebutton').addEventListener('click', (event)=>{
     GenerateIndividualPlaceContent(homepage);
     event.target.style="font-weight: 1000;";
     document.getElementById('allplacesbutton').style="";
-
-    //setStorage('block','none', 'none');
 })
 function FillRecentPlaces(places){                                              //Function that fills the Recent Places section
     let NumOfPlaces= Object.keys(places).length
@@ -232,28 +226,30 @@ function GenerateIndividualPlaceContent(backdestination){           //Making car
 
     for(element of document.querySelectorAll('.placetitle')){
         element.addEventListener('click', async function(event){
-            ChangeDisplay('none', 'block', 'none');
-            let placename= event.target.textContent;
-            document.getElementById('place').innerHTML = placename;
+            
+            try {
+                let placename= event.target.textContent;
+                let response= await fetch('/place/images/'+placename);
+                let images= await response.json();
+                let n=1;
 
-            let response= await fetch('/place/images/'+placename);
-            let images= await response.json();
-            let n=1;
-            for(let i=1; i<4; i++){
-                document.getElementById('column'+i).innerHTML="";
+                ChangeDisplay('none', 'block', 'none');
+
+                document.getElementById('place').innerHTML = placename;
+
+                for(let i=1; i<4; i++){
+                    document.getElementById('column'+i).innerHTML="";
+                }
+                for(image of images){
+                    let column= document.getElementById('column'+n);
+                    column.insertAdjacentHTML('beforeend',"<img src='userimages/"+placename+"/"+image+"' style='border: 4px solid white'>");
+                    n=n+1;
+                    if(n>3){n=1;}
+                }
+            } catch (error) {
+                console.log(error);
+                showServerDown();
             }
-            for(image of images){
-                let column= document.getElementById('column'+n);
-                column.insertAdjacentHTML('beforeend',"<img src='userimages/"+placename+"/"+image+"' style='border: 4px solid white'>");
-                n=n+1;
-                if(n>3){n=1;}
-            }
-            /*
-            myStorage.setItem('allplacespage', 'none');
-            myStorage.setItem('homepage', 'none');
-            myStorage.setItem('placepage', 'block');
-            SEE IF SAVING PAGE STATE ON PLACE PAGE IS POSSIBLE
-            */
         })
     }
     document.getElementById('backtohome').onclick= function(){ backbutton(backdestination);  };
