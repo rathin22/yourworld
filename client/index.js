@@ -194,12 +194,6 @@ document.getElementById("form").addEventListener('submit', async function(event)
     for(let i=0; i<filesField.files.length; i++){
     formData.append('images', filesField.files[i]);
     }
-    console.log(Object.keys(formData));
-    console.log(Object.values(formData));
-    for(let key of formData.keys()){
-        console.log(key);
-        console.log("Value: "+formData.getAll(key));
-    }
     let response = await fetch('/upload', {method: 'POST', body: formData});
     let res= await response.text();
 
