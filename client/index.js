@@ -196,26 +196,23 @@ document.getElementById("form").addEventListener('submit', async function(event)
     }
     let response = await fetch('/upload', {method: 'POST', body: formData});
     let res= await response.text();
-    if(res=="Place already added"){
-        alert('This place has already been added before');
+
+    if(homepage.style.display=="block"){
+        let successmsg= document.getElementById('homesuccessmessage')
+        successmsg.style.display="block";
+        GenerateRequiredPageContent();
+        window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);         //Removes msg after 5 seconds
     }
-    else{
-        if(homepage.style.display=="block"){
-            let successmsg= document.getElementById('homesuccessmessage')
-            successmsg.style.display="block";
-            GenerateRequiredPageContent();
-            window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);         //Removes msg after 5 seconds
-        }
-        else {
-            let successmsg= document.getElementById('allplacessuccessmessage')
-            successmsg.style.display="block";
-            GenerateRequiredPageContent();
-            window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);          //Removes msg after 5 seconds
-            
-        }
-        document.getElementById('close').click();
-        document.getElementById('form').reset();
+    else {
+        let successmsg= document.getElementById('allplacessuccessmessage')
+        successmsg.style.display="block";
+        GenerateRequiredPageContent();
+        window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);          //Removes msg after 5 seconds
+        
     }
+    document.getElementById('close').click();
+    document.getElementById('form').reset();
+    
 })
 
 async function GenerateRequiredPageContent()       //Used to generate the content of the page again after a place has been added or deleted
@@ -239,7 +236,7 @@ function GenerateIndividualPlaceContent(backdestination){           //Making car
             let placename= event.target.textContent;
             document.getElementById('place').innerHTML = placename;
 
-            let response= await fetch('/place/'+placename);
+            let response= await fetch('/place/images/'+placename);
             let images= await response.json();
             let n=1;
             for(let i=1; i<4; i++){

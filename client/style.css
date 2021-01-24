@@ -56,22 +56,33 @@ hr { position: relative;
     padding: 5px;
     
 }
+#place { font-size: 45pt;
+}
+#backtohome { font-size: 5vw;}
+#delete {
+    font-size: 15pt;
+}
+
 @media screen and (max-width: 768px) {
     #home {font-size: 30pt;} 
     #homepageaddplace{
         font-size: 22pt;
         margin-bottom: 10px;
     }
+    
 }
 @media screen and (max-width: 576px){
     .navbar {font-size: 16pt;}
     #maintitle {font-size: 40pt;}
     .addplace {font-size: 17pt;}
     #yourexperiences {font-size: 30pt;}
+    #place {font-size: 35pt;}
+    #delete {font-size: 12pt;}
 }
 @media screen and (min-width: 768px) {
     #homepageaddplace { position:relative;
          }
+    #backtohome {font-size: 39px; }
 }
 @media screen and (min-width: 1040px) and (max-width: 1200px) {
     .addplace { position:relative;
@@ -118,9 +129,7 @@ img { border: 6px solid white;
     -1px 1px 0 #000,
     1px 1px 0 #000;  
 }
-#delete {
-    font-size: 15pt;
-}
+
 .blurimgcontainer {
     position: relative;
     text-align: center;

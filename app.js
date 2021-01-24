@@ -12,7 +12,7 @@ var AllPlaces= JSON.parse(fs.readFileSync('AllPlaces.json', (err, data)=>{
 }));
 
 
-function getRecentPlaces(){                                          //Returns dictionary of last 3 places and respective image paths
+function getRecentPlaces(){                                       //Returns dictionary of last 3 places and respective image names
     let FilePaths={};
     
     let n= Object.keys(AllPlaces).length - 3
@@ -28,17 +28,20 @@ function getRecentPlaces(){                                          //Returns d
     else{ return {}}
 }
 
-
-app.get('/allplaces', (req, resp)=>{
-
+function GetAllFilePaths(){          //Creates dictionary with keys as place names and a list of their image names as value
     let AllFilePaths= {};
-    for(place of Object.keys(AllPlaces)){
+    for(let place of Object.keys(AllPlaces)){
         AllFilePaths[place] = fs.readdirSync("client/userimages/"+place);
-    }   
-    resp.json(AllFilePaths);
+    }
+    return AllFilePaths;
+}
+
+
+app.get('/allplaces', (req, resp)=>{        //Returns dictionary of place names and their image names
+    resp.json(GetAllFilePaths());
 })
 
-app.get('/recent', function(req, resp){
+app.get('/recent', function(req, resp){    
     resp.json(getRecentPlaces());
 })
 
@@ -46,11 +49,10 @@ app.post('/upload', function(req, resp){                    //ADD NEW PLACE
 
     let x= JSON.stringify(req.files.images.length);
     if(x==undefined) {x=1;} 
-
-    if(AllPlaces[req.body.name]!=undefined){
-        resp.send('Place already added');}      //If place has been added before     
+    if(AllPlaces[req.body.name]==undefined){ AllPlaces[req.body.name]= parseInt(x); }
     else{
-    AllPlaces[req.body.name]= parseInt(x);
+        AllPlaces[req.body.name]= AllPlaces[req.body.name]+ parseInt(x);
+    }
     fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
 
     for(i=0; i<x; i++){
@@ -62,11 +64,11 @@ app.post('/upload', function(req, resp){                    //ADD NEW PLACE
             if(err) {return resp.status(500).send(err);}
         })
     }
-    resp.send("Files uploaded");
- }
+    resp.sendStatus(200);
+ 
 })
 
-app.get('/place/:placename', function(req, resp){
+app.get('/place/images/:placename', function(req, resp){                           //Returns list of image names of specified place
     let images= fs.readdirSync("client/userimages/"+req.params.placename);
     resp.json(images);
 })
@@ -82,5 +84,18 @@ app.delete('/delete/:place', (req, resp)=>{
 app.get('/allplaceslist', (req, resp)=>{
     resp.json(Object.keys(AllPlaces));
 })
+app.get('/allpictures', (req, resp)=>{                               //returns list of all pictures currently uploaded
+    let allpictures=[];
+    let AllFilePaths = GetAllFilePaths();
+    for(let place of Object.keys(AllFilePaths)){
+        for(let image of AllFilePaths[place]){
+            allpictures.push(image);
+        }
+    }
+    resp.json(allpictures);
+})
 
+app.get('/place/numofimages/:placename', (req, resp)=>{
+    resp.send(AllPlaces[req.params.placename].toString());
+})
 module.exports = app;
