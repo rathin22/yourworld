@@ -15,10 +15,10 @@ function getRecentPlaces () { // Returns dictionary of last 3 places and respect
     const FilePaths = {};
 
     let n = Object.keys(AllPlaces).length - 3;
-    if (n != -3) {
+    if (n !== -3) {
         const limit = n + 3;
         if (n < 0) { n = 0; }
-        for (i = n; i < limit; i++) {
+        for (let i = n; i < limit; i++) {
             const place = Object.keys(AllPlaces)[i];
             FilePaths[place] = fs.readdirSync('client/userimages/' + place);
         }
@@ -45,16 +45,17 @@ app.get('/recent', function (req, resp) {
 app.post('/upload', function (req, resp) { // ADD NEW PLACE
         if (req.body.name && req.files) {
             let x = JSON.stringify(req.files.images.length);
-            if (x == undefined) { x = 1; }
-            if (AllPlaces[req.body.name] == undefined) { AllPlaces[req.body.name] = parseInt(x); } else {
+            if (x === undefined) { x = 1; }
+            if (AllPlaces[req.body.name] === undefined) { AllPlaces[req.body.name] = parseInt(x); } else {
                 AllPlaces[req.body.name] = AllPlaces[req.body.name] + parseInt(x);
             }
             fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err) => { if (err) { console.log(err); } });
 
             for (let i = 0; i < x; i++) {
-                currentImage = req.files.images[i];
-                if (x == 1) { currentImage = req.files.images; } // If there's only one image
-                uploadPath = 'C:\\Users\\rathi\\Desktop\\app\\client\\userimages\\' + req.body.name + '\\' + Date.now() + currentImage.name;
+                let currentImage = req.files.images[i];
+
+                if (x === 1) { currentImage = req.files.images; } // If there's only one image
+                const uploadPath = 'C:\\Users\\rathi\\Desktop\\app\\client\\userimages\\' + req.body.name + '\\' + Date.now() + currentImage.name;
 
                 currentImage.mv(uploadPath, function (err) {
                 if (err) { return resp.status(500).send(err); }
@@ -71,7 +72,7 @@ app.get('/place/images/:placename', function (req, resp) { // Returns list of im
 
 app.delete('/delete/:place', (req, resp) => {
     const placename = req.params.place;
-    if (AllPlaces[placename] == undefined) { resp.sendStatus(400); } else {
+    if (AllPlaces[placename] === undefined) { resp.sendStatus(400); } else {
         deleteFolder('client/userimages/' + placename, { debugLog: false });
         delete AllPlaces[placename];
         fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err) => { if (err) { console.log(err); } });
