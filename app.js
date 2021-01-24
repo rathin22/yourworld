@@ -46,8 +46,7 @@ app.get('/recent', function(req, resp){
 })
 
 app.post('/upload', function(req, resp){                     //ADD NEW PLACE
-        console.log(req.files);
-        console.log(req);
+
         if(req.body.name && req.files){
             let x= JSON.stringify(req.files.images.length);
             if(x==undefined) {x=1;} 
