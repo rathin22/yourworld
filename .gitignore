@@ -5,3 +5,4 @@ client/images/
 client/userimages/
 AllPlaces.json
 functionality.txt
+.eslintrc.js

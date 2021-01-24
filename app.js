@@ -45,27 +45,30 @@ app.get('/recent', function(req, resp){
     resp.json(getRecentPlaces());
 })
 
-app.post('/upload', function(req, resp){                    //ADD NEW PLACE
+app.post('/upload', function(req, resp){                     //ADD NEW PLACE
+        console.log(req.files);
+        console.log(req);
+        if(req.body.name && req.files){
+            let x= JSON.stringify(req.files.images.length);
+            if(x==undefined) {x=1;} 
+            if(AllPlaces[req.body.name]==undefined){ AllPlaces[req.body.name]= parseInt(x); }
+            else{
+                AllPlaces[req.body.name]= AllPlaces[req.body.name]+ parseInt(x);
+            }
+            fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
 
-    let x= JSON.stringify(req.files.images.length);
-    if(x==undefined) {x=1;} 
-    if(AllPlaces[req.body.name]==undefined){ AllPlaces[req.body.name]= parseInt(x); }
-    else{
-        AllPlaces[req.body.name]= AllPlaces[req.body.name]+ parseInt(x);
-    }
-    fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
+            for(let i=0; i<x; i++){
+                currentImage= req.files.images[i];
+                if(x==1){ currentImage=req.files.images;}         //If there's only one image         
+                uploadPath= 'C:\\Users\\rathi\\Desktop\\app\\client\\userimages\\'+req.body.name+'\\'+Date.now()+currentImage.name;
 
-    for(i=0; i<x; i++){
-        currentImage= req.files.images[i];
-        if(x==1){ currentImage=req.files.images;}         //If there's only one image         
-        uploadPath= 'C:\\Users\\rathi\\Desktop\\app\\client\\userimages\\'+req.body.name+'\\'+Date.now()+currentImage.name;
-
-        currentImage.mv(uploadPath, function(err){
-            if(err) {return resp.status(500).send(err);}
-        })
-    }
-    resp.sendStatus(200);
- 
+                currentImage.mv(uploadPath, function(err){
+                if(err) {return resp.status(500).send(err);}
+                })
+            }
+            resp.json(AllPlaces);
+        }
+        else{ resp.sendStatus(400);}
 })
 
 app.get('/place/images/:placename', function(req, resp){                           //Returns list of image names of specified place
@@ -75,10 +78,14 @@ app.get('/place/images/:placename', function(req, resp){                        
 
 app.delete('/delete/:place', (req, resp)=>{
     let placename= req.params.place;
-    deleteFolder('client/userimages/'+placename, {debugLog: false});
-    delete AllPlaces[placename];
-    fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
-    resp.send("");
+    if(AllPlaces[placename]==undefined)
+    {resp.sendStatus(400);}
+    else{
+        deleteFolder('client/userimages/'+placename, {debugLog: false});
+        delete AllPlaces[placename];
+        fs.writeFile('AllPlaces.json', JSON.stringify(AllPlaces), (err)=>{if(err){console.log(err);}});
+        resp.json(AllPlaces);
+    }
 })
 
 app.get('/allplaceslist', (req, resp)=>{
@@ -97,5 +104,6 @@ app.get('/allpictures', (req, resp)=>{                               //returns l
 
 app.get('/place/numofimages/:placename', (req, resp)=>{
     resp.send(AllPlaces[req.params.placename].toString());
-})
+});
+
 module.exports = app;
