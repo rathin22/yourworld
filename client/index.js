@@ -68,6 +68,7 @@ document.getElementById('allplacesbutton').addEventListener('click', async (even
     document.getElementById('homebutton').style="";                      //nav bar text     
     } catch (error) {
         showServerDown();
+        console.log(error);
     }
     
 })
@@ -116,7 +117,7 @@ function FillRecentPlaces(places){                                              
             for(row of rows){                                                       //Clearing out stuff already in rows
                 row.innerHTML="";
             }
-            if(places[place].length>=4){                                                 //If atleast 3 images are there
+            if(places[place].length>=4){                                                 //If atleast 4 images are there
                 let col1 = document.createElement('div');
                 let col2 = document.createElement('div');
                 let col3 = document.createElement('div');
@@ -125,7 +126,7 @@ function FillRecentPlaces(places){                                              
                 let columns= [col1, col2, col3, col4];
                 for(j=0; j<4; j++){
                     columns[j].className="col-6";
-                    columns[j].style="background-image: url('userimages/"+place+"/"+places[place][j]+"'); background-repeat: no-repeat; height: 150px; background-position-x: center;"
+                    columns[j].style="background-image: url('userimages/"+place+"/"+places[place][j]+"'); background-repeat: no-repeat; height: 200px; background-position-x: center; background-size: cover;"
                 }
 
                 rows[0].append(col1);
@@ -133,7 +134,7 @@ function FillRecentPlaces(places){                                              
                 rows[1].append(col3);
                 rows[1].append(col4);
             }
-            if(places[place].length==3){                                                 //If atleast 3 images are there
+            if(places[place].length==3){                                                 //If 3 images are there
                 let col1 = document.createElement('div');
                 let col2 = document.createElement('div');
                 let col3 = document.createElement('div');
@@ -142,7 +143,7 @@ function FillRecentPlaces(places){                                              
 
                 for(j=0; j<3; j++){
                     columns[j].className="col-6";
-                    columns[j].style="background-image: url('userimages/"+place+"/"+places[place][j]+"'); background-repeat: no-repeat; height: 150px; background-position-x: center;"
+                    columns[j].style="background-image: url('userimages/"+place+"/"+places[place][j]+"'); background-repeat: no-repeat; height: 200px; background-position-x: center;  background-size: cover;"
                 }
                 columns[2].className="col-12";
                 rows[0].append(col1);
@@ -154,7 +155,7 @@ function FillRecentPlaces(places){                                              
             else if(places[place].length==1) {                                           //If only 1 image is there
                 let col1= document.createElement('div');
                 col1.className="col-12";
-                col1.style="background-image: url('userimages/"+place+"/"+places[place][0]+"'); background-repeat: no-repeat; height: 200px; background-position-x: center; background-size: contain;";
+                col1.style="background-image: url('userimages/"+place+"/"+places[place][0]+"'); background-repeat: no-repeat; height: 400px; background-position-x: center; background-size: contain;";
                 rows[0].append(col1);
             }
 
@@ -210,6 +211,7 @@ document.getElementById("form").addEventListener('submit', async function(event)
     } catch (error) {
         document.getElementById('close').click();
         showServerDown();
+        console.log(error);
     }
         
 })
@@ -274,6 +276,7 @@ document.getElementById('delete').addEventListener('click', async (event)=>{
         GenerateRequiredPageContent();        
     } catch (error) {
         showServerDown();
+        console.log(error);
     }
 
 })
