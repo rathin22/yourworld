@@ -41,7 +41,7 @@
             <form id="form">
               <div class="form-group">
               <label for="placename" style="color: black;" class="montserrat">Enter the name of the place </label>
-              <input type="text" class="form-control" id="placename" required>
+              <input type="text" class="form-control" id="placename" required pattern="[A-Za-z0-9 ]+" title="No special characters allowed">
               <div class="invalid-feedback montserrat">
                 Please enter a name
               </div>

@@ -188,25 +188,30 @@ document.getElementById("form").addEventListener('submit', async function(event)
     for(let i=0; i<filesField.files.length; i++){
     formData.append('images', filesField.files[i]);
     }
-    let response = await fetch('/upload', {method: 'POST', body: formData});
-    let res= await response.text();
+    try {
+        let response = await fetch('/upload', {method: 'POST', body: formData});
+        let res= await response.text();
 
-    if(homepage.style.display=="block"){
-        let successmsg= document.getElementById('homesuccessmessage')
-        successmsg.style.display="block";
-        GenerateRequiredPageContent();
-        window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);         //Removes msg after 5 seconds
+        if(homepage.style.display=="block"){
+            let successmsg= document.getElementById('homesuccessmessage')
+            successmsg.style.display="block";
+            GenerateRequiredPageContent();
+            window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);         //Removes msg after 5 seconds
+        }
+        else {
+            let successmsg= document.getElementById('allplacessuccessmessage')
+            successmsg.style.display="block";
+            GenerateRequiredPageContent();
+            window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);          //Removes msg after 5 seconds
+        }
+        document.getElementById('close').click();
+        document.getElementById('form').reset();
+
+    } catch (error) {
+        document.getElementById('close').click();
+        showServerDown();
     }
-    else {
-        let successmsg= document.getElementById('allplacessuccessmessage')
-        successmsg.style.display="block";
-        GenerateRequiredPageContent();
-        window.setTimeout(function(){RemoveSuccessMsg(successmsg);},5000);          //Removes msg after 5 seconds
         
-    }
-    document.getElementById('close').click();
-    document.getElementById('form').reset();
-    
 })
 
 async function GenerateRequiredPageContent()       //Used to generate the content of the page again after a place has been added or deleted
@@ -260,10 +265,15 @@ function backbutton(destination){
 }
 
 document.getElementById('delete').addEventListener('click', async (event)=>{
-    let placename= document.getElementById('place').textContent;
-    let response= await fetch('http://127.0.0.1:8090/delete/'+placename, {
-        method: 'delete'
-    });
-    document.getElementById('backtohome').click();
-    GenerateRequiredPageContent();
+    try {
+        let placename= document.getElementById('place').textContent;
+        let response= await fetch('http://127.0.0.1:8090/delete/'+placename, {
+            method: 'delete'
+        });
+        document.getElementById('backtohome').click();
+        GenerateRequiredPageContent();        
+    } catch (error) {
+        showServerDown();
+    }
+
 })
