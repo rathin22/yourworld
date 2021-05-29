@@ -89,7 +89,7 @@ hr { position: relative;
         left: 25%; }
 }
 @media screen and (max-width: 1482px){
-    #rightcard { margin-top: 30px;}
+    #card3 { margin-top: 30px;}
 }
 .cardtitle{
     font-size: 24pt;

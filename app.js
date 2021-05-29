@@ -55,7 +55,7 @@ app.post('/upload', function (req, resp) { // ADD NEW PLACE
                 let currentImage = req.files.images[i];
 
                 if (x === 1) { currentImage = req.files.images; } // If there's only one image
-                const uploadPath = 'C:\\Users\\rathi\\Desktop\\app\\client\\userimages\\' + req.body.name + '\\' + Date.now() + currentImage.name;
+                const uploadPath = __dirname + '\\client\\userimages\\' + req.body.name + '\\' + Date.now() + currentImage.name;
 
                 currentImage.mv(uploadPath, function (err) {
                 if (err) { return resp.status(500).send(err); }

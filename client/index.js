@@ -80,6 +80,7 @@ document.getElementById('homebutton').addEventListener('click', (event)=>{
     event.target.style="font-weight: 1000;";
     document.getElementById('allplacesbutton').style="";
 })
+
 function FillRecentPlaces(places){                                              //Function that fills the Recent Places section
     let NumOfPlaces= Object.keys(places).length
     if(NumOfPlaces==0){
@@ -90,24 +91,24 @@ function FillRecentPlaces(places){                                              
         document.getElementById('allcards').style.display="block";
     if (NumOfPlaces==1) {
         document.getElementById('noplaces').style.display="none";
-        document.getElementById('card1').style.display='block';
+        document.getElementById('card1').style.display='inline-block';
         document.getElementById('card2').style.display='none';
         document.getElementById('card3').style.display='none';
     }
     else if (NumOfPlaces==2) {
         document.getElementById('noplaces').style.display="none";
-        document.getElementById('card1').style.display='block';
-        document.getElementById('card2').style.display='block';
+        document.getElementById('card1').style.display='inline-block';
+        document.getElementById('card2').style.display='inline-block';
         document.getElementById('card3').style.display='none';
         
     }
     else{
         document.getElementById('noplaces').style.display="none";
-        document.getElementById('card1').style.display='block';
-        document.getElementById('card2').style.display='block';
-        document.getElementById('card3').style.display='block';
-    } }
-
+        document.getElementById('card1').style.display='inline-block';
+        document.getElementById('card2').style.display='inline-block';
+        document.getElementById('card3').style.display='inline-block';
+    }
+    }
     let n=1;
 
         for(let i=NumOfPlaces-1; i>=0; i--){                                        //Adding title and images of each card
