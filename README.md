@@ -3,6 +3,8 @@ This is a simple single-page-app I created to learn JavaScript, creating REST AP
 
 The website is like a picture log where you can add places that you have visited and then add pictures you captured of those places. Basically a collection of your pictures, categorized by location.
 
+Link to API documentation: https://documenter.getpostman.com/view/14309040/TW6uoUCX
+
 ## Running the website:
 Clone down this repository. You will need `node` and `npm` installed globally on your machine.
 In this folder, first run:
